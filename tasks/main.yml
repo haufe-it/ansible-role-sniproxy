@@ -1,0 +1,44 @@
+---
+- name: Merge variables
+  ansible.builtin.set_fact:
+    dehydrated: "{{ sniproxy_defaults | combine(sniproxy) }}"
+
+- name: Install sniproxy
+  ansible.builtin.apt:
+    pkg: sniproxy
+    state: present
+  when: ansible_distribution == 'Debian'
+  tags:
+    - packages
+
+- name: Fix systemd unit
+  ansible.builtin.copy:
+    content: |
+      # Ansible managed
+      [Service]
+      ExecStart=
+      ExecStart=/usr/sbin/sniproxy -f
+    dest: /etc/systemd/system/sniproxy.service.d/override.conf
+    mode: "0644"
+    owner: root
+    group: root
+  notify:
+    - Reload systemd
+    - Restart sniproxy
+
+- name: Deploy configuration
+  ansible.builtin.template:
+    src: sniproxy.conf.j2
+    dest: /etc/sniproxy.conf
+    mode: "0644"
+    owner: root
+    group: root
+  notify:
+    - Restart sniproxy
+  tags:
+    - configuration
+
+- name: Enable systemd service
+  ansible.builtin.systemd:
+    name: sniproxy
+    enabled: true

@@ -1,0 +1,7 @@
+---
+sniproxy_defaults:
+  resolver_nameserver: '127.0.0.1'
+  resolver_mode: 'ipv6_first'
+  listeners: []
+  sniproxy_tables: []
+...
