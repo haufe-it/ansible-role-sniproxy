@@ -1,7 +1,7 @@
 ---
 - name: Merge variables
   ansible.builtin.set_fact:
-    dehydrated: "{{ sniproxy_defaults | combine(sniproxy) }}"
+    sniproxy: "{{ sniproxy_defaults | combine(sniproxy) }}"
 
 - name: Install sniproxy
   ansible.builtin.apt:
