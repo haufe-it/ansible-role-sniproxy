@@ -11,6 +11,14 @@
   tags:
     - packages
 
+- name: Create systemd override directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/sniproxy.service.d/
+    mode: "0644"
+    owner: root
+    group: root
+    state: directory
+
 - name: Fix systemd unit
   ansible.builtin.copy:
     content: |
