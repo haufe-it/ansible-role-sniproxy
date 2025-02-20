@@ -35,6 +35,7 @@ listener {{ listener.socket }} {
 table {{ table.name }} {
 {%   for entry in table.entries %}
 	{{ entry.map }} {{ entry.to }} {% if entry.flags is defined %}{{ entry.flags }}{% endif %}
+
 {% endfor %}
 
 }
