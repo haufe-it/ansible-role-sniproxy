@@ -7,7 +7,7 @@
   ansible.builtin.apt:
     pkg: sniproxy
     state: present
-  when: ansible_distribution == 'Debian'
+  when: ansible_facts["distribution"] == 'Debian'
   tags:
     - packages
 
